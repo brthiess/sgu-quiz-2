@@ -1,19 +1,19 @@
 <template>
-  <div class="landing-container">
-    <div class="title-button-container">
-      <div class="title-container">
-        <h1 class="title">Science or Fiction</h1>
+  <div class="landing-container" :class="{'quiz-active': active}">
+    <div class="title-button-container" :class="{'quiz-active': active}">
+      <div class="title-container" :class="{'quiz-active': active}">
+        <h1 class="title" :class="{'quiz-active': active}">Science or Fiction</h1>
       </div>
-      <h4 class="subtitle">Compete against the rogues with a series of Science or Fiction questions and see how you stack up!</h4>
-      <ul class="rogue-list" >
-        <li class="rogue-list-item"><img  class="rogue-list-item-image" src="/images/steve.jpeg" /><span class="rogue-name">Steve</span></li>
-        <li class="rogue-list-item"><img  class="rogue-list-item-image" src="/images/jay.jpeg" /><span class="rogue-name">Jay</span></li>
-        <li class="rogue-list-item"><img  class="rogue-list-item-image" src="/images/bob.jpeg" /><span class="rogue-name">Bob</span></li>
-        <li class="rogue-list-item"><img  class="rogue-list-item-image" src="/images/cara.jpeg" /><span class="rogue-name">Cara</span></li>
-        <li class="rogue-list-item"><img  class="rogue-list-item-image" src="/images/evan.jpeg" /><span class="rogue-name">Evan</span></li>
+      <h4 class="subtitle" :class="{'quiz-active': active}">Compete against the rogues with a series of Science or Fiction questions and see how you stack up!</h4>
+      <ul class="rogue-list" :class="{'quiz-active': active}">
+        <li class="rogue-list-item"><img  class="rogue-list-item-image" :class="{'quiz-active': active}" src="/images/steve.jpeg" /><span class="rogue-name">Steve</span></li>
+        <li class="rogue-list-item"><img  class="rogue-list-item-image" :class="{'quiz-active': active}" src="/images/jay.jpeg" /><span class="rogue-name">Jay</span></li>
+        <li class="rogue-list-item"><img  class="rogue-list-item-image" :class="{'quiz-active': active}" src="/images/bob.jpeg" /><span class="rogue-name">Bob</span></li>
+        <li class="rogue-list-item"><img  class="rogue-list-item-image" :class="{'quiz-active': active}" src="/images/cara.jpeg" /><span class="rogue-name">Cara</span></li>
+        <li class="rogue-list-item"><img  class="rogue-list-item-image" :class="{'quiz-active': active}" src="/images/evan.jpeg" /><span class="rogue-name">Evan</span></li>
       </ul>
-      <div class="begin-quiz-button-container">
-        <button class="button main-button" @click="beginQuiz">Begin Quiz</button>
+      <div class="begin-quiz-button-container" :class="{'quiz-active': active}">
+        <button class="button main-button" :class="{'quiz-active': active}" @click="beginQuiz" >Begin Quiz</button>
       </div>
     </div>
   </div>
@@ -32,7 +32,24 @@ export default {
   methods: {
      beginQuiz(){
 		this.$store.commit('setActive', true);
-    }
+		document.body.className = "quiz-active";
+		this.getQuestions();
+	},
+	getQuestions(){
+		var episodeNumbers = this.getRandomEpisodeNumbers(7);
+
+	},
+	getRandomEpisodeNumbers(numberOfEpisodes){
+		var arr = [];
+		while(arr.length < numberOfEpisodes){
+			var r = Math.floor(Math.random() * 10) + 1;
+			if(arr.indexOf(r) === -1) arr.push(r);
+		}
+		return arr;
+	},
+	getEpisodeJson(episodeNumber){
+		return 
+	}
   }
 }
 </script>

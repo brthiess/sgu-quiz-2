@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 
 * {
 	font-family: 'Raleway', sans-serif;
