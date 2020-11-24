@@ -12,10 +12,10 @@ export const store = new Vuex.Store({
 		quizProgressPercentage: 0,
 		finished: false,
 		totalNumberOfQuestions: 1,
-		sections: {}
+		sections: []
     },
     mutations: {
-        activeQuestionNumber(state, activeQuestionNumber){
+        setActiveQuestionNumber(state, activeQuestionNumber){
             state.activeQuestionNumber = activeQuestionNumber;
         },
         decrementActiveQuestionNumber(state){
@@ -48,6 +48,9 @@ export const store = new Vuex.Store({
         },
         setSections(state, sections){
             state.sections = sections;
+        },
+        setSection(state, section, sectionNumber){
+            state.sections[sectionNumber-1] = section;
         }
     }
 })

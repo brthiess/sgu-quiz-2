@@ -14,7 +14,7 @@
                             <h3 class="quiz-question">{{section.question}}</h3>
                         </div>
                         <ul class="quiz-answers-container">
-                            <li v-for="(answer, index) in section.answers" :key="'answer-'+index" v-on:click="answerQuestion(section.number, answer.number)" class="quiz-answer" v-bind:class="{'answer-correct' : answer.correct, 'answer-incorrect' : !answer.correct, 'this-answer-picked' : answer.picked}">
+                            <li v-for="(answer, index) in section.answers" :key="'answer-'+index" @click="answerQuestion(section, answer.number)" class="quiz-answer" v-bind:class="{'answer-correct' : answer.correct, 'answer-incorrect' : !answer.correct, 'this-answer-picked' : answer.picked}">
                                 <ul class="rogue-answers-container">
                                     <li v-for="(rogueAnswer, index) in answer.rogueAnswers" :key="'rogueAnswer-'+index" class="rogue-answer-image-container" v-bind:class="{'answered' : section.answered}">
                                         <img class="rogue-answer-image" v-bind:src="rogueAnswer.image" />
@@ -63,6 +63,19 @@ export default {
         },
         goToNextQuestion(){
             this.$store.commit('incrementActiveQuestionNumber');
+        },
+        answerQuestion(section, answerNumber){
+            if (section.answered === true) {
+                console.log('already answered');
+				return;
+            }
+            section.answered = true;
+            section.answers[answerNumber].picked = true;
+            
+            console.log(section);
+            this.$store.commit('setSection', section, section.number);
+            console.log(this.sections);  
+            
         }
     }
 }

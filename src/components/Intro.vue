@@ -27,7 +27,7 @@ export default {
     msg: String
   },
   computed: {
-    ...mapState(['active', 'activeQuestionNumber', 'totalNumberOfQuestions', 'onFirstQuestion']),
+    ...mapState(['active', 'activeQuestionNumber', 'totalNumberOfQuestions', 'onFirstQuestion', 'sections']),
   },
   methods: {
      beginQuiz(){
@@ -36,7 +36,26 @@ export default {
 		this.getQuestions();
 	},
 	getQuestions(){
-		var episodeNumbers = this.getRandomEpisodeNumbers(7);
+		var episodeNumbers = this.getRandomEpisodeNumbers(1);
+		var self = this;
+		Promise.all([
+			this.getEpisodeJson(episodeNumbers[0])/*, 
+			this.getEpisodeJson(episodeNumbers[1]),
+			this.getEpisodeJson(episodeNumbers[2]),
+			this.getEpisodeJson(episodeNumbers[3]),
+			this.getEpisodeJson(episodeNumbers[4]),
+			this.getEpisodeJson(episodeNumbers[5]),
+			this.getEpisodeJson(episodeNumbers[6])*/
+		]).then(function(responses){
+			var sections = [];
+			for (var i = 0; i < responses.length; i++){
+				responses[i].number = i+1;
+				sections.push(responses[i]);
+			}
+			self.$store.commit('setTotalNumberOfQuestions', responses.length);
+			self.$store.commit('setActiveQuestionNumber', 1);
+			self.$store.commit('setSections', sections);
+		});
 
 	},
 	getRandomEpisodeNumbers(numberOfEpisodes){
@@ -48,7 +67,12 @@ export default {
 		return arr;
 	},
 	getEpisodeJson(episodeNumber){
-		return 
+		var self = this;
+		return new Promise(function(resolve, reject){
+			self.makeApiRequest('/json/' + episodeNumber + '.json')
+			.then(function(data) {resolve(data)})
+			.catch(function(error) {reject(error)});
+		}) 
 	}
   }
 }
