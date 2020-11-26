@@ -5,28 +5,35 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        activeQuestionNumber: 1,
+        activeSectionNumber: 1,
 		active: false,
 		onFirstQuestion: true,
 		onLastQuestion: false,
 		quizProgressPercentage: 0,
 		finished: false,
-		totalNumberOfQuestions: 1,
-		sections: []
+        totalNumberOfQuestions: 1,
+        totalNumberOfSections: 1,
+        sections: [],
+        results: {
+            placing: 1,
+            numberOfQuestionsAnswered: 0,
+            numberOfQuestionsAnsweredCorrectly: 0,
+			percentage: 100
+        }
     },
     mutations: {
-        setActiveQuestionNumber(state, activeQuestionNumber){
-            state.activeQuestionNumber = activeQuestionNumber;
+        setActiveSectionNumber(state, activeSectionNumber){
+            state.activeSectionNumber = activeSectionNumber;
         },
-        decrementActiveQuestionNumber(state){
-            if (state.activeQuestionNumber > 1){
-                state.activeQuestionNumber -= 1;
+        decrementActiveSectionNumber(state){
+            if (state.activeSectionNumber > 1){
+                state.activeSectionNumber -= 1;
             }
         },
-        incrementActiveQuestionNumber(state){
-            if (state.activeQuestionNumber < state.totalNumberOfQuestions){
-                state.activeQuestionNumber += 1;
-            }
+        incrementActiveSectionNumber(state){
+            if (state.activeSectionNumber < state.totalNumberOfSections){
+                state.activeSectionNumber += 1;   
+            }            
         },
         setActive(state, active){
             state.active = active;
@@ -46,11 +53,18 @@ export const store = new Vuex.Store({
         setTotalNumberOfQuestions(state, totalNumberOfQuestions){
             state.totalNumberOfQuestions = totalNumberOfQuestions;
         },
+        setTotalNumberOfSections(state, totalNumberOfSections){
+            state.totalNumberOfSections = totalNumberOfSections;
+        },
         setSections(state, sections){
             state.sections = sections;
         },
         setSection(state, section, sectionNumber){
             state.sections[sectionNumber-1] = section;
+        },
+        answerQuestion(state, correct){
+            state.results.numberOfQuestionsAnswered++;
+            state.results.numberOfQuestionsAnsweredCorrectly += (correct ? 1 : 0);
         }
     }
 })

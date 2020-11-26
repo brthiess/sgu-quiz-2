@@ -16,7 +16,7 @@ export default {
     QuizFooter
   },
   computed: {
-      ...mapState(['active', 'activeQuestionNumber', 'totalNumberOfQuestions', 'onFirstQuestion'])
+      ...mapState(['active', 'activeSectionNumber', 'totalNumberOfQuestions', 'onFirstQuestion'])
   }
 }
 

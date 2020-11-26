@@ -5,12 +5,12 @@
             <div class="quiz-progress-container">
                 <div class="quiz-progress">
                     <div class="question-number-container">
-                        {{totalNumberOfQuestions >= activeQuestionNumber ? activeQuestionNumber + '/' + totalNumberOfQuestions : 'End'}}
+                        {{totalNumberOfQuestions >= activeSectionNumber ? activeSectionNumber + '/' + totalNumberOfQuestions : 'End'}}
                     </div>
                     <ProgressRing radius="70" :progress="quizProgressPercentage" stroke="10"></ProgressRing>
                 </div>
             </div>
-            <button class="navigation-button next-button" v-bind:class="{'disabled' : !nextSectionIsAvailable}" @click="goToNextQuestion">Next</button>
+            <button class="navigation-button next-button" v-bind:class="{'disabled' : !nextSectionIsAvailable}" @click="goToNextQuestion">{{ onLastQuestion ? 'View Results' : 'Next' }}</button>
         </div>
     </div>
 </template>
@@ -25,20 +25,27 @@ export default {
         ProgressRing
     },
     computed: {
-        ...mapState(['active', 'activeQuestionNumber', 'totalNumberOfQuestions', 'onFirstQuestion']),
+        ...mapState(['active', 'activeSectionNumber', 'totalNumberOfQuestions', 'sections']),
         nextSectionIsAvailable: function(){
-            return this.activeQuestionNumber >= this.totalNumberOfQuestions;
+            return this.activeSectionNumber <= this.totalNumberOfQuestions && this.sections.length > 0 && this.sections[this.activeSectionNumber - 1].answered;
         },
         quizProgressPercentage: function(){
-            return this.activeQuestionNumber / this.totalNumberOfQuestions;
-        }
+            return this.activeSectionNumber / this.totalNumberOfQuestions * 100;
+        },
+		onFirstQuestion: function(){
+			return this.activeSectionNumber == 1;
+		},
+		onLastQuestion: function(){
+			return (this.activeSectionNumber / this.totalNumberOfQuestions) == 1
+		}
+
     },
     methods: {
         goToPreviousQuestion() {
-            this.$store.commit('decrementActiveQuestionNumber');
+            this.$store.commit('decrementActiveSectionNumber');
         },
         goToNextQuestion(){
-            this.$store.commit('incrementActiveQuestionNumber');
+            this.$store.commit('incrementActiveSectionNumber');
         }
     }
 }

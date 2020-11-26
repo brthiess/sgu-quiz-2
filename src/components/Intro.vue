@@ -27,7 +27,7 @@ export default {
     msg: String
   },
   computed: {
-    ...mapState(['active', 'activeQuestionNumber', 'totalNumberOfQuestions', 'onFirstQuestion', 'sections']),
+    ...mapState(['active', 'activeSectionNumber', 'totalNumberOfQuestions', 'onFirstQuestion', 'sections']),
   },
   methods: {
      beginQuiz(){
@@ -36,27 +36,44 @@ export default {
 		this.getQuestions();
 	},
 	getQuestions(){
-		var episodeNumbers = this.getRandomEpisodeNumbers(1);
+		var episodeNumbers = this.getRandomEpisodeNumbers(7);
 		var self = this;
 		Promise.all([
-			this.getEpisodeJson(episodeNumbers[0])/*, 
+			this.getEpisodeJson(episodeNumbers[0]), 
 			this.getEpisodeJson(episodeNumbers[1]),
 			this.getEpisodeJson(episodeNumbers[2]),
 			this.getEpisodeJson(episodeNumbers[3]),
 			this.getEpisodeJson(episodeNumbers[4]),
 			this.getEpisodeJson(episodeNumbers[5]),
-			this.getEpisodeJson(episodeNumbers[6])*/
-		]).then(function(responses){
+			this.getEpisodeJson(episodeNumbers[6])
+		]).then(function(questions){
 			var sections = [];
-			for (var i = 0; i < responses.length; i++){
-				responses[i].number = i+1;
-				sections.push(responses[i]);
+			for (var i = 0; i < questions.length; i++){
+				questions[i].number = i+1;
+				if (i > 0){
+					questions[i].isUpcoming = true;
+				}
+				else {
+					questions[i].isUpcoming = false;
+				}
+				questions[i].isPreceding = false;
+				sections.push(questions[i]);
 			}
-			self.$store.commit('setTotalNumberOfQuestions', responses.length);
-			self.$store.commit('setActiveQuestionNumber', 1);
+			var resultsSection = self.getResultsSection(questions.length);
+			sections.push(resultsSection);
+			self.$store.commit('setTotalNumberOfQuestions', questions.length);
+			self.$store.commit('setTotalNumberOfSections', sections.length);
+			self.$store.commit('setActiveSectionNumber', 1);
 			self.$store.commit('setSections', sections);
 		});
 
+	},
+	getResultsSection(numberOfQuestions){
+		return {
+			type: "results",
+			isUpcoming: true,
+			number: numberOfQuestions + 1
+		};
 	},
 	getRandomEpisodeNumbers(numberOfEpisodes){
 		var arr = [];
