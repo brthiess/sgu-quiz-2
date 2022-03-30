@@ -1,27 +1,34 @@
 {
-    "type":"normal",
-    "date":"May 31, 2014",
-    "episodeNumber":464,
-    "answered": false,
-    "answers":{
-       "1":{
-          "number":1,
-          "text":"Neptune's moon, Triton, is the only body known to have cryovolcanoes. ",
-          "correct":true,
-          "picked": false
-       },
-       "2":{
-          "number":2,
-          "text":"Up until the 1850s, astronomers recognized 11 planets in our solar system. ",
-          "correct":false,
-          "picked": false
-       },
-       "3":{
-          "number":3,
-          "text":"The body in our solar system with an atmosphere most similar to Earth&#x2019;s is Saturn's moon, Titan. ",
-          "correct":false,
-          "picked": false
-       }
+  "type": "normal",
+  "date": "May 31, 2014",
+  "episodeNumber": 464,
+  "answered": false,
+  "answers": {
+    "1": {
+      "number": 1,
+      "text": "Neptune's moon, Triton, is the only body known to have cryovolcanoes. ",
+      "correct": true,
+      "picked": false
     },
-    "question":"Pick the fiction"
- }
+    "2": {
+      "number": 2,
+      "text": "Up until the 1850s, astronomers recognized 11 planets in our solar system. ",
+      "correct": false,
+      "picked": false
+    },
+    "3": {
+      "number": 3,
+      "text": "The body in our solar system with an atmosphere most similar to Earth&#x2019;s is Saturn's moon, Titan. ",
+      "correct": false,
+      "picked": false
+    }
+  },
+  "rogueAnswers": [
+    {
+      "number": "1",
+      "name": "Jay",
+      "image": "jay.png"
+    }
+  ],
+  "question": "Pick the fiction"
+}
